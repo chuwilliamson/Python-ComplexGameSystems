@@ -20,13 +20,16 @@ class Chromosome(object):
         return self.expression.split('*')
 
     def get_variables(self):
-        '''get variables'''
+        '''get variables
+           example: "(a + b) * (d + c) * (d + c + e + !d)"
+        '''
         variables = []
         expression = self.expression
         for item in self.grammar:
             expression = expression.replace(item, '')
         expression = expression.split()
         expression.sort()
+
         for i in expression:
             if i not in variables:
                 variables.append(i)
@@ -38,6 +41,7 @@ class Chromosome(object):
         for i in self.variables:
             if i not in pairs:
                 pairs.append((i, ''))
+                
         return pairs
 
     def set_variable_pairs(self, args):
