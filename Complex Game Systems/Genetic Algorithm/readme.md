@@ -1,4 +1,6 @@
-#Name: CNF Genetic Solver	 
+# Name: 
+CNF Genetic Solver	 
+
 ## Problem Statement: 
 
 Implement the genetic algorithm as described in class to solve an equation that is in conjunctive normal form.
