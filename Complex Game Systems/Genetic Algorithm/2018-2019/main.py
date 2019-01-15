@@ -51,7 +51,8 @@ def genetic_algorithm(conjunct):
                 set time t:= t+1
     '''
 
-    
+    t = 0
+    genelength = CNF.
 
     
 if __name__ == "__main__":        
