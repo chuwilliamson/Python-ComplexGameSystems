@@ -3,89 +3,60 @@
    2.store what you read into a variable and print it
 analyze the string and variablize all useful information'''
 
-import os
-class Expression(object):
-    def __init__(self, expression):         
-        self._expression = expression.replace('\n', '')
-        self._clauses = expression.split('*')        
-        self._symbols = ['*', '+', '(' , ')' , '!']      
-        self._symbolmap = [('!', 'not '), ('+', 'or'),('*', 'and')]  
-        self._literals = []
-        self._variables = []
-        self._values = []
-        self._result = False
-        self._evaluation = self._expression
+from Parser import *
+from CNF import *
+from Parser import *
+from random import *
 
-        #get the literals
-        for char in self._expression:
-            if char not in self._symbols and char != ' ':
-                self._literals.append(char)
-        #get the variables aka: the unique literals
-        for char in self._literals:
-            if char not in self._variables:
-                self._variables.append(char)
-                self.variables.sort()
-                        
-    def map_variables(self, values):        
-        if len(values) != len(self.variables):
-            self._result = None            
-            return None
-        self._values = zip(self.variables, values)       
-        for kvp in self._values:            
-            self._evaluation = self._evaluation.replace(kvp[0], kvp[1])
+def run(*args):        
+    value = args[0]
+    p = Parser("info.txt")
+    conjuncts = []
 
-        for kvp in self._symbolmap:
-            self._evaluation = self._evaluation.replace(kvp[0], kvp[1])          
-        
-        self._result = eval(self._evaluation)
+    for line in p.lines: 
+        cnf = CNF(line)   
+        conjuncts.append(cnf)
 
-    @property
-    def evaluation(self):
-        return self._evaluation
-    @property
-    def expression(self):
-        return self._expression
-    @property
-    def result(self):
-        return self._result
-    @property
-    def variables(self):
-        return self._variables
-    @property
-    def values(self):
-        return self._values
-
-    @property
-    def info(self):
-        print "variables:: " , expression.variables
-        print "expression:: " , expression.expression
-        print "evaluation:: " , expression.evaluation
-        print "result:: " , expression.result
-
-        
-                
-class Parser(object):
-    def __init__(self, filename):
-        self._filename = filename        
-        self._file = file(filename, 'r')        
-        self._lines = self._file.readlines()
+def crossover(genes, pivot):
+    value1 = str(genes[0])
+    value2 = str(genes[1])
     
-    @property
-    def lines(self):
-        return self._lines
+    head1,tail1 = value1[:pivot], value1[pivot:]        
+    head2,tail2 = value2[:pivot], value2[pivot:]         
+    str1 = "{}{}".format(head1, tail2)
+    str2 = "{}{}".format(head2, tail1)
+    return (str1, str2)
 
-p = Parser("info.txt")
-expressions = []
-for line in p.lines:    
-    expressions.append(Expression(line))
+def mutate(gene, rate):
+    value = str(gene)
+    newvalue = ""
+    for v in value:          
+        actualvalue = v      
+        if random() <= rate:
+            actualvalue = '1' if v is '0' else '0'
+        newvalue += str(actualvalue)
+    return newvalue
 
-for expression in expressions:
-    expression.map_variables("101011")
-    expression.info
+def genetic_algorithm(conjunct):
+    '''we run the algorithm on a conjunct
+    begin
+        set time t:=0
+        initialize the population P(t)
+        while the termination condition is not met do
+            begin
+                evaluate fitness of each member of the population P(t)
+                select members from population P(t) based on fitness
+                produce the offspring of these pairs using genetic operators
+                replace, based on fitness, candidates of P(t), with these offspring
+                set time t:= t+1
+    '''
+
     
 
-
-
-
-
-
+    
+if __name__ == "__main__":        
+    g1 = '111000'
+    g2 = '010111'
+    print crossover([g1, g2], 3)
+    print mutate(g1, 1)
+    print mutate(g1, 0)
