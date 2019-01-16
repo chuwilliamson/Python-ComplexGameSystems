@@ -37,7 +37,14 @@ def mutate(gene, rate):
         newvalue += str(actualvalue)
     return newvalue
 
+def random_gene(strlen):
+    value = ""
+    for _ in range(strlen):
+        value += str(randint(0, 1))
+    return value
+
 def genetic_algorithm(conjunct):
+    
     '''we run the algorithm on a conjunct
     begin
         set time t:=0
@@ -50,14 +57,31 @@ def genetic_algorithm(conjunct):
                 replace, based on fitness, candidates of P(t), with these offspring
                 set time t:= t+1
     '''
-
-    t = 0
-    genelength = CNF.
-
+    '''chromosome is the population'''
+    '''the members are genes'''
     
-if __name__ == "__main__":        
+    cnf = CNF(conjunct)    
+    t = 0    
+    populationlength = 25
+    genelength = len(cnf.variables)
+    population = []
+    for _ in range(populationlength):
+        population.append(random_gene(genelength))
+    finished = False
+    while not finished:
+        for member in population:
+            cnf.map_variables(member)
+            cnf._fitness
+            
+    
+def tests():
     g1 = '111000'
     g2 = '010111'
     print crossover([g1, g2], 3)
     print mutate(g1, 1)
     print mutate(g1, 0)
+    
+if __name__ == "__main__":            
+    expressions = Parser('info.txt').lines
+    for expression in expressions:
+        genetic_algorithm(expression) 

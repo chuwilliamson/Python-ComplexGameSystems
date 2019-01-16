@@ -10,6 +10,7 @@ class CNF(object):
         self._values = []
         self._result = False
         self._evaluation = self._expression
+        self._fitness = 0
 
         #get the literals
         for char in self._expression:
@@ -37,6 +38,8 @@ class CNF(object):
     @property
     def variables(self):
         return self._variables
+
+    @property
     def clauses(self):
         return self._clauses
 
