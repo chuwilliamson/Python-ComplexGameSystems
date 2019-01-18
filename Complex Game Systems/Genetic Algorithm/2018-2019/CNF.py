@@ -1,6 +1,6 @@
 
 class CNF(object):
-    def __init__(self, expression):         
+    def __init__(self, expression):                 
         self._expression = expression.replace('\n', '')
         self._clauses = self._expression.split('*')
         self._symbols = ['*', '+', '(' , ')' , '!']  
@@ -22,21 +22,15 @@ class CNF(object):
                 self._variables.sort()
  
 
-    def map_variables(self, values):        
-        if len(values) != len(self._variables):            
-            return None
-        result = self._expression
-        self._values = zip(self._variables, values)
-        
+    def map_variables(self, values):                
+        result = self._expression      
+        self._values = zip(self._variables, values)        
         for item in self._values:
-            result = result.replace(item[0], item[1])
-        
+            result = result.replace(item[0], item[1])        
         for item in self._symbolmap:
-            result = result.replace(item[0], item[1])
+            result = result.replace(item[0], item[1])       
 
-        self._clauses = result.split('and')
-
-        return result
+        return result.split('and')
         
 
     @property
@@ -49,5 +43,5 @@ class CNF(object):
 
     @property
     def info(self):
-        return "variables:: {}\nexpression:: {}\nevaluation:: {}\nresult:: {}".format(self._variables, self._expression, self._evaluation, self._result)
+        return "variables:: {}\nexpression:: {}\nresult:: {}".format(self._variables, self._expression, self._result)
                 
