@@ -8,8 +8,7 @@ class CNF(object):
         self._literals = []
         self._variables = []
         self._values = []
-        self._result = False
-        self._evaluation = self._expression
+        self._result = False        
         self._fitness = 0
 
         #get the literals
@@ -24,16 +23,21 @@ class CNF(object):
  
 
     def map_variables(self, values):        
-        if len(values) != len(self._variables):
-            self._result = None            
+        if len(values) != len(self._variables):            
             return None
+        result = self._expression
         self._values = zip(self._variables, values)
         
         for item in self._values:
-            self._evaluation = self._evaluation.replace(item[0], item[1])
+            result = result.replace(item[0], item[1])
+        
         for item in self._symbolmap:
-            self._evaluation = self._evaluation.replace(item[0], item[1])
-        self._result = eval(self._evaluation)
+            result = result.replace(item[0], item[1])
+
+        self._clauses = result.split('and')
+
+        return result
+        
 
     @property
     def variables(self):
@@ -45,5 +49,5 @@ class CNF(object):
 
     @property
     def info(self):
-        return "variables:: {}\nexpression:: {}\nevaluation:: {}\nresult:: {}".format(self._variables, self._expression,self._evaluation, self._result)
+        return "variables:: {}\nexpression:: {}\nevaluation:: {}\nresult:: {}".format(self._variables, self._expression, self._evaluation, self._result)
                 

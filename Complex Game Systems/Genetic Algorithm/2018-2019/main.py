@@ -66,14 +66,31 @@ def genetic_algorithm(conjunct):
     genelength = len(cnf.variables)
     population = []
     for _ in range(populationlength):
-        population.append(random_gene(genelength))
-    finished = False
-    while not finished:
+        population.append(Gene(random_gene(genelength))
+    #we are finished with algo whenever we get a member of the population to have a fitness of 100%
+    while True:
         for member in population:
-            cnf.map_variables(member)
-            cnf._fitness
+            '''map the variables [1100, 0011]'''
+            expression = cnf.map_variables(member)
+            clauses = expression.split('and')
+            for clause in clauses:
+                res = eval(clause)
             
     
+def roulette_wheel(items):
+    '''fitness selection'''
+    result = None
+    partial_sum = 0    
+    random_choice = randint(0, sum(items))
+
+    for item in items:
+        partial_sum += item
+        if partial_sum <= random_choice:
+            result = item
+            break
+    
+    return result
+
 def tests():
     g1 = '111000'
     g2 = '010111'
@@ -81,7 +98,22 @@ def tests():
     print mutate(g1, 1)
     print mutate(g1, 0)
     
-if __name__ == "__main__":            
+if __name__ == "__main__":      
     expressions = Parser('info.txt').lines
     for expression in expressions:
-        genetic_algorithm(expression) 
+        genetic_algorithm(expression)
+
+
+class Gene(object):
+    def __init__(self, bits):
+        '''this is the bitstring'''
+        self._bits = bits   
+    
+    def fitness(self, cnf):
+        cnf.map_variables(self._bits)
+
+    def mutate(self, rate):
+        return mutate(bitstring, rate)
+
+    def crossover(self, other):
+        return crossover(self._bitstring, other)
